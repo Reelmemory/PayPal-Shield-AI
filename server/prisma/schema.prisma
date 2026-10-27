@@ -1,0 +1,55 @@
+// server/prisma/schema.prisma
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum ThreatVector {
+  INVOICE_PHISHING
+  PROMPT_INJECTION
+  FF_PURCHASE_TRAP
+  REMOTE_COERCION
+  BOT_CARDING_WAVE
+  CLEAN_TRANSACTION
+}
+
+enum ShieldAction {
+  AUTO_APPROVED
+  DRAFT_DELETED
+  REROUTED_TO_GS
+  AUTH_VOIDED
+  COERCION_CHALLENGE
+  DISPUTE_EVIDENCE_SENT
+}
+
+model SecurityEvent {
+  id                  String       @id @default(uuid())
+  createdAt           DateTime     @default(now())
+
+  paypalResourceId    String       @unique
+  paypalResourceType  String       // "INVOICE" | "ORDER" | "PAYOUT" | "DISPUTE"
+  sandboxMerchantId   String
+  buyerEmail          String?
+
+  amount              Float
+  currency            String       @default("USD")
+  cardBinPrefix       String?
+  ipSubnet            String?
+
+  overallRiskScore    Float
+  threatVector        ThreatVector
+  actionTaken         ShieldAction
+  inferenceLatencyMs  Int
+
+  rawTextAnalyzed     String?
+  sanitizedText       String?
+  shapAttributions    String
+  telemetryMetrics    String
+  velocitySparkline   String
+
+  riskReceiptHash     String
+}

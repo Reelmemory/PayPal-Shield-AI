@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+__pycache__/
+*.pyc
+.venv/
+
+# Environment & Secrets (NEVER COMMIT PAYPAL KEYS)
+.env
+.env.*
+server/.env
+client/.env
+
+# Local SQLite Database Files
+*.db
+*.db-journal
+server/prisma/*.db
+server/prisma/*.db-journal
+
+# Build & OS Artifacts
+dist/
+build/
+.DS_Store
+Thumbs.db
+*.log
