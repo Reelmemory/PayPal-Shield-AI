@@ -1,0 +1,45 @@
+services:
+  # 1. Python FastAPI NLP & Isolation Forest Microservice
+  - type: web
+    name: paypal-shield-ai-engine
+    runtime: python
+    plan: free
+    rootDir: ai-engine
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn classifier:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+
+  # 2. Node.js Express + Prisma + PayPal Sandbox Orchestrator
+  - type: web
+    name: paypal-shield-backend
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install --include=dev && npx prisma generate && npx prisma db push
+    startCommand: npx tsx src/index.ts
+    envVars:
+      - key: DATABASE_URL
+        value: file:./dev.db
+      - key: PAYPAL_BASE_URL
+        value: https://api-m.sandbox.paypal.com
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_MERCHANT_EMAIL
+        value: sb-merchant@business.example.com
+      - key: AI_ENGINE_URL
+        value: https://paypal-shield-ai-engine.onrender.com
+
+  # 3. React 19 + AG Grid Enterprise SOC Command Center
+  - type: web
+    name: paypal-shield-soc-client
+    runtime: static
+    rootDir: client
+    buildCommand: npm install --include=dev && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://paypal-shield-backend.onrender.com/api
