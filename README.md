@@ -1,49 +1,57 @@
 # 🛡️ PayPal Shield AI
 
-> **An AI-powered cybercrime firewall, agentic-commerce sanitizer, and 60-FPS Security Operations Center (SOC) built for the PayPal ecosystem** — neutralizing invoice phishing, indirect AI prompt injections, remote-access coercion scams, peer-to-peer payment traps, and automated carding botnets before funds move.
+> **One-Sentence Summary:** PayPal Shield AI is a real-time payment fraud firewall, agentic prompt-injection sanitizer, and 60-FPS AG Grid Enterprise Security Operations Center (SOC) that intercepts phishing invoices, reroutes coerced transfers, and voids carding botnets directly through PayPal’s REST APIs before settlement.
 
 ---
 
-## 🧠 Core Architecture & Modules
+## ⚡ JUDGE'S 30-SECOND TESTING GUIDE (NO INSTALL REQUIRED)
 
-1. **Phishing & Prompt-Injection Invoice Interceptor (`Invoicing v2` + `Webhooks API`)**
-   * Intercepts draft invoices (`POST /v2/invoicing/invoices`) and signed `INVOICING.INVOICE.CREATED` webhooks (`/api/webhooks/paypal`).
-   * Strips zero-width Unicode control characters (`\u200B-\u200D\uFEFF`), flags lookalike homograph domains (`paypaI.com`), redacts `[SYSTEM OVERRIDE]` LLM jailbreaks, and automatically executes `DELETE /v2/invoicing/invoices/{id}` in PayPal Sandbox.
-2. **Coerced Friends & Family Scam-Trap Guardrail (`Orders v2` Reroute)**
-   * Tracks real-time browser telemetry for rapid `window.onblur` tab switches (AnyDesk/TeamViewer remote coaching) and commercial keywords.
-   * Triggers a high-friction **Social-Engineering Circuit Breaker Modal** and 1-click reroutes unsafe transfers into protected `POST /v2/checkout/orders` (`intent: "CAPTURE"`).
-3. **Anti-Carding Bot Firewall (`Orders v2 Authorize & Void`)**
-   * Combines client-side `0ms` clipboard paste detection and mouse arc curvature (radians) with an `IsolationForest` BIN velocity engine (`ai-engine/anomaly.py`) to void bot authorizations before capture.
-4. **One-Click "Proof a Human Paid" Evidence Bridge (`Disputes v1 API`)**
-   * Packages verified human session biometrics and the tamper-proof `SHA-256` risk seal into an evidence bundle submitted directly to `POST /v1/customer/disputes/{id}/provide-evidence`.
-5. **Interactive Live Telemetry & Custom Attack Lab**
-   * Built-in sandbox drawer that captures live mouse curvature, keystroke flight time (ms), `Alt+Tab` window-blur counts, and `Ctrl+V` clipboard pastes directly from the browser.
+We deployed the entire 3-service stack on Render so you can test every PayPal API integration and AI model in **under 30 seconds**:
 
----
+* 🌐 **Live SOC Command Center (Frontend):** `https://paypal-shield-soc-client.onrender.com`
+* 🐍 **Live Python FastAPI & Isolation Forest Swagger Docs:** `https://paypal-shield-ai-engine.onrender.com/docs`
+* ⚙️ **Live Express + PayPal Sandbox Orchestrator:** `https://paypal-shield-backend.onrender.com/api/events`
 
-## 📊 Security Operations Center (AG Grid Enterprise)
+*(Note: Free-tier Render instances sleep after 15m of inactivity. If the first button click takes ~30 seconds, the backend is waking up—subsequent clicks run in <50ms!)*
 
-* **Natural Language Grid Control:** Plain-English command bar that translates analyst queries into structured column grouping, risk filtering, and sorting states (`/api/ai/grid-state`).
-* **60-FPS High-Velocity Streaming:** Streams automated card-testing waves in real time with cell change flashing and inline SVG 60-second velocity sparklines.
-* **Master/Detail Forensic & Raw JSON Inspector:** Expandable row drawers featuring red-highlighted scam phrases, sanitized AI payloads, horizontal `SHAP` explainability bars, `SHA-256` cryptographic seals, and raw PayPal Sandbox JSON envelopes.
-* **Batch Sandbox Enforcement & Compliance Exports:** Custom right-click context menu for bulk-deleting phishing drafts, bulk-voiding card authorizations, attaching dispute evidence, and exporting FinCEN CSV/Excel audit trails.
+### 👇 Click These 5 Buttons in Order on the Dashboard:
+
+| Step | Dashboard Action | What Happens Behind the Scenes |
+| :--- | :--- | :--- |
+| **1** | Click **`🚨 1. Phishing + Prompt-Injection Invoice`** | Creates a draft invoice via **PayPal Invoicing v2 API**, strips hidden zero-width LLM jailbreaks (`[SYSTEM OVERRIDE]`) + homograph domains (`paypaI.com`), calculates **SHAP** risk weights, and fires `DELETE /v2/invoicing/invoices/{id}`. **Click the `>` row arrow** to inspect the forensic drawer! |
+| **2** | Click **`📞 2. Coerced F&F Trap → Orders v2`** | Detects active phone/screen-share coercion (`windowBlurCount >= 3` + commercial keywords) and automatically reroutes an unprotected Friends & Family transfer into a protected **PayPal Orders v2** checkout (`POST /v2/checkout/orders`). |
+| **3** | Click **`⚡ 3. Botnet Carding Wave (60FPS Stream)`** | Simulates 20 headless card-testing probes (`0ms` CVV paste cadence), scores BIN velocity via our **Scikit-Learn Isolation Forest**, voids the holds, and streams rows at **60 FPS** into AG Grid with inline SVG sparklines. |
+| **4** | Click **`⚖️ 4. "Proof a Human Paid" (Disputes v1)`** | Packages verified human biometric telemetry + a tamper-proof `SHA-256` cryptographic receipt seal and submits it to **PayPal Disputes v1 API** (`POST /v1/customer/disputes/{id}/provide-evidence`). |
+| **5** | Click **`🧪 5. Open Live Telemetry Lab`** & **Ask AG Grid AI** | Move your mouse and type inside the Lab to see real-time radian curvature & keystroke flight sensors. Then type **`Group by threat, filter risk > 0.85, sort amount desc`** into the **Ask AG Grid AI** bar to automatically restructure the grid. |
 
 ---
 
-## 📂 Repository Structure
+## 🏗️ System Architecture
 
-paypal-shield-ai/
-├── ai-engine/
-│   ├── classifier.py         # FastAPI + DeBERTa-v3 NLP phishing & prompt-injection sanitizer
-│   ├── anomaly.py            # Scikit-Learn IsolationForest for BIN velocity & bot biometrics
-│   └── requirements.txt      # Python AI microservice dependencies
-├── server/
-│   ├── src/
-│   │   ├── index.ts          # Express SOC backend, PayPal OAuth2 & REST API orchestrator
-│   │   └── paypalShieldTest.ts
-│   └── prisma/
-│       └── schema.prisma     # SQLite/PostgreSQL schema for forensic audit logs
-├── client/
-│   └── src/
-│       └── App.tsx           # AG Grid Enterprise v34 SOC Command Center & Live Telemetry Lab
-└── README.md                 # Architecture and setup guide
+1. **Frontend SOC (`client/`):** React 19, TypeScript, Vite, **AG Grid Enterprise** (`applyTransactionAsync` 60-FPS streaming, Master/Detail forensic drawers, custom SVG velocity sparklines, right-click batch enforcement context menu, and Natural Language Grid State controller).
+2. **Orchestration Backend (`server/`):** Node.js, Express, TypeScript, Prisma ORM (SQLite), integrating **PayPal Sandbox REST APIs** (`OAuth 2.0`, `Invoicing v2`, `Orders v2`, `Disputes v1`, and `Webhook` signature verification) with an automatic sub-5ms local failover if the Python service is cold-starting.
+3. **AI & Anomaly Microservice (`ai-engine/`):** Python, FastAPI, and **Scikit-Learn** (`IsolationForest` anomaly detection, Unicode/homograph sanitization, and explainable SHAP risk attribution).
+
+---
+
+## 💻 Local Development Quickstart (Optional)
+
+If you wish to run the stack locally:
+
+```bash
+# 1. Start Python FastAPI Microservice (Port 8000)
+cd ai-engine
+pip install -r requirements.txt
+uvicorn classifier:app --reload --port 8000
+
+# 2. Start Node.js + Prisma Backend (Port 4000)
+cd ../server
+cp .env.example .env # Add your PayPal Sandbox Client ID & Secret
+npm install
+npx prisma generate && npx prisma db push
+npx tsx src/index.ts
+
+# 3. Start React + AG Grid Enterprise SOC (Port 5173)
+cd ../client
+npm install
+npm run dev
