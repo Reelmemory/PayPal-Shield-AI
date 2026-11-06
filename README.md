@@ -4,6 +4,10 @@
 
 Built for the **PayPal AI Hackathon 2026**.
 
+## Demo Video
+
+[![PayPal Shield AI Demo](https://img.youtube.com/vi/U7bSiyJLlhs/0.jpg)](https://youtu.be/U7bSiyJLlhs)
+
 ---
 
 ## Live Demo (No Install Required)
