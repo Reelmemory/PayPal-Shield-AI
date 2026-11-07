@@ -6,8 +6,6 @@ Built for the **PayPal AI Hackathon 2026**.
 
 ## Demo Video
 
-## Demo Video
-
 [Watch the 2-minute demo →](https://youtu.be/U7bSiyJLlhs)
 
 ---
